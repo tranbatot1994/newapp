@@ -1,12 +1,20 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import TodoForm from './TodoForm';
 import Todo from './Todo';
 
-
+const storagekey = "todoapp";
 function TodoList() {
   const [todos, setTodos] = useState([]);
-  
-  
+  useEffect (()=>{ const Storaged= localStorage.getItem(storagekey)
+    if (Storaged) {
+      setTodos(JSON.parse(Storaged));
+    }
+
+  },[]);
+  useEffect (()=>{
+    localStorage.setItem(storagekey,JSON.stringify(todos));
+
+  },[todos]);
 const addTodo = todo => {
     if (!todo.text || /^\s*$/.test(todo.text)) {
       return;
